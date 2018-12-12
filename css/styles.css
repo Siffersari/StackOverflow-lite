@@ -57,6 +57,13 @@ html,body {
     margin-top: 45px;
    
 }
+.stack-form-login {
+    float: right;
+    width: 40%;
+    margin-top: 60px;
+    padding-top: 50px;
+   
+}
 .stack-fluid {
     width: 91%;
     margin-top: 10px;
