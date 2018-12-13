@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/styles.css">
     <title>Answer - StackOverflow-lite</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 </head>
 <body>
     <div id="navbar">
@@ -39,6 +40,12 @@
         <h4>ANSWERS:</h4>
         <hr class="stack-rule-muted"> <br>
 
+
+        
+        <div class="wrap">
+            <i onclick="myFunction(this)" class="fa fa-ellipsis-h"></i>
+        </div> <br>
+
         <article>I think this may help you!, For example you have a formula at Sheet2!B4 like this:
 
                 =IF(B2>A4,Sheet1!B4,B2/B12)
@@ -57,6 +64,16 @@
                 
                 =IF(INDIRECT("B2")>INDIRECT(CONCATENATE("A", ROW())),Sheet1!B5,INDIRECT("B2")/INDIRECT("B12")</article> <br>
 
+
+                <hr class="stack-rule-muted"> <br>
+                
+                <div class="wrap">
+                        <i onclick="myFunction(this)" class="fa fa-ellipsis-h"></i>
+                    </div> <br>
+            
+                    <article> This question previously also addressed the issue of repeated echoing of the input sound. This issue was because of using the speaker of the phone rather than headphone causing feedback loop as mentioned in comments by lucky1928. That echoing was the fault of me overlooking the surrounding rather than any android related issue, so that part question has been removed. So when testing the above code please use headphones. </article> <br>
+            
+
                 <h4>YOUR ANSWER:</h4>
                 <hr class="stack-rule-muted"> <br>
         
@@ -70,7 +87,7 @@
     <footer class="stack-footer">
         <p style="margin-top: 1rem;">Copyright &copy; Leewel Karani</p>
     </footer>
-
+<script src="js/main.js"></script>
     
 </body>
 </html>

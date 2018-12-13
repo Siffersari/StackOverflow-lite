@@ -222,3 +222,28 @@ input {
     margin-left: 30px;
     border: none;
 }
+
+.wrap {
+    max-width: 100px;
+    margin: auto;
+}
+.fa {
+    font-size: 35em;
+    cursor: pointer;
+    user-select: none;
+    color: #4D6D9A;
+    visibility: visible;
+}
+.fa:hover{
+    color: black;
+}
+
+.stack-info {
+    margin-top: 20px;
+    margin-left: 20px;
+    text-decoration: none;
+    color: #4D6D9A;
+    
+}
+
+

@@ -9,3 +9,12 @@ function deleter(){
 function home(){
     return window.location.replace("index.html");
 }
+
+function myFunction(x){
+    x.classList.toggle(newFunction());
+
+    function newFunction() {
+        return "fa-thumbs-up";
+    }
+}
+  
