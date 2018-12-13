@@ -142,13 +142,19 @@ html,body {
     text-decoration: none;
     color: #4D6D9A;
 }
+.stack-jumbo article {
+    margin-left: 20px;
+    color: black;
+    font-weight: normal;
+    word-spacing: 5px;
+}
 #stack-link-post {
     margin-top: 20px;
     margin-left: 40px;
     text-decoration: none;
     color: #4D6D9A;
 }
-.stack-jumbo h2, h3 {
+.stack-jumbo h2, h3, H4 {
     color:black; 
     padding: 5px;
     margin-left: 15px;
@@ -184,6 +190,11 @@ input {
     color:white;
     border: none; 
     background-color: aliceblue;
+}
+.stack-rule-muted {
+    color: #4D6D9A;
+    width: 95%;
+    
 }
 .stack-post {
     margin-left: 30px;
