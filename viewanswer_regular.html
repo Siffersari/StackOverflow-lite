@@ -4,9 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Answers - StackOverflow-lite</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <title>Answers StackOverflow-lite</title>
 </head>
 <body>
+    <div id="navbar">
+        <a href="#" class="nav-title">STACKOVERFLOW-LITE </a>
+         <a href="index.html" class="nav-login" href="#">REGISTER</a>
+        </div>
+        <hr class="stack-rule">
+
+
+    <div class="stack-container-home">
+    <div class="stack-sidebar">
+        <ul>
+        <li><a href="#">HOME</a></li>
+        <li><a href="#">QUESTIONS</a></li>
+        </ul>
+    </div>
+
+    <div class="stack-jumbo">
+        
+        <h3>Is it possible to emulate cut-paste properties while copying and pasting in excel? </h3>
+        <hr class="stack-rule-muted"> <br>
+        <article>
+
+                I am trying to copy-paste a range of cells to another location in my spreadsheet. The problem is that unlike cut-paste, when I use copy-paste I lose the original cell references. I was wondering if it is possible to create an artificial "cut-paste" option, but without deleting the original data, and with the ability to repeat the operation more than once.
+                
+                I've found a partial solution to this problem by using the notepad or a VBA code to copy the formulas (as explained here). However, it still doesn't provide a complete solution, because I still want to have certain cells changed - for example, cells with SUM function should be updated so they calculate the sum of the newly pasted cells, and not the old cells. This is something the cut and paste option is capable of, but I couldn't find any parallel method to do that with copy-paste.
+                
+                Any help will be much appreciated.
+        </article> <br>
+
+        <h4>ANSWERS:</h4>
+        <hr class="stack-rule-muted"> <br>
+
+        <article>I think this may help you!, For example you have a formula at Sheet2!B4 like this:
+
+                =IF(B2>A4,Sheet1!B4,B2/B12)
+                
+                And you want to copy/paste it to Sheet2!B5 and Sheet2!C5 -current sheet- and you hope it becomes (expected result):
+                
+                =IF(B2>A5,Sheet1!B5,B2/B12)        '=> for B5 (B2,B12: no changes & A4>A5: just row changes)
+                =IF(B2>A6,Sheet1!C6,B2/B12)        '=> for C6 (B2,B12: no changes & A4>A6: just row changes)
+                
+                But Excel do it like this:
+                
+                =IF(B3>A5,Sheet1!B5,B3/B13)        '=> for B5
+                =IF(C4>B6,Sheet1!C6,C4/C14)        '=> for C6
+                
+                In this case I change my formula to this:
+                
+                =IF(INDIRECT("B2")>INDIRECT(CONCATENATE("A", ROW())),Sheet1!B5,INDIRECT("B2")/INDIRECT("B12")</article> <br>
+
+                <h4>YOUR ANSWER:</h4>
+                <hr class="stack-rule-muted"> <br>
+        
+        <input class="stack-post" type="text" placeholder="Type your answer here">
+
+        <article>Please create an account first in order to post an answer. If your already have an account, you can  first<a href="login.html">log in here.</a></article> <br>
+
+        <button class="stack-btn-submit" onclick="home()">REGISTER</button>
+
+    </div>
+    </div>
+
+    <footer class="stack-footer">
+        <p style="margin-top: 1rem;">Copyright &copy; Leewel Karani</p>
+    </footer>
+
+    <script src="js/main.js"></script>
     
 </body>
 </html>
