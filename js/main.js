@@ -6,3 +6,6 @@ function deleter(){
         window.location.replace("post.html");
     }
 }
+function home(){
+    return window.location.replace("index.html");
+}
