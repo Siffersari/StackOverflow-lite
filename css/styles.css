@@ -82,9 +82,23 @@ html,body {
     margin-left: 35%;
     border: none;
 }
+.stack-btn-submit {
+    background-color: #4D6D9A;
+    color: white;
+    width: 20%;
+    height: 40px;
+    margin-top: 15px;
+    margin-left: 45px;
+    border: none;
+}
 .stack-container {
     clear: both;
     min-height: 100%;
+}
+.stack-container-home {
+    clear: both;
+    min-height: 100%;
+    margin-top: 70px;
 }
 .stack-container-info {
     border-bottom: 2px solid black;
@@ -127,8 +141,15 @@ html,body {
     text-decoration: none;
     color: #4D6D9A;
 }
-.stack-jumbo h2 {
+#stack-link-post {
+    margin-top: 20px;
+    margin-left: 40px;
+    text-decoration: none;
+    color: #4D6D9A;
+}
+.stack-jumbo h2, h3 {
     color:black; 
+    padding: 5px;
     margin-left: 15px;
 }
 .stack-footer {
@@ -162,4 +183,19 @@ input {
     color:white;
     border: none; 
     background-color: aliceblue;
+}
+.stack-post {
+    margin-left: 30px;
+    margin-bottom: 30px;
+    margin-top: 15px;
+    background-color: aliceblue;
+    padding: 10px;
+    text-align: center;
+    height: 8rem;
+    width: 50%;
+}
+.stack-home-post {
+    padding: 10px 0px;
+    width: 100%;
+    border-bottom: 1px solid rgb(122, 141, 158);
 }
