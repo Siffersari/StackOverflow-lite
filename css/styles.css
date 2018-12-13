@@ -201,3 +201,13 @@ input {
     margin-top: 20px;
     border-bottom: 1px solid rgb(122, 141, 158);
 }
+.stack-btn-sm-submit {
+    background-color: #4D6D9A;
+    color: white;
+    width: 20%;
+    height: 30px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    margin-left: 30px;
+    border: none;
+}
