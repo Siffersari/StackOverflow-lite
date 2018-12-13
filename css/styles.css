@@ -87,8 +87,9 @@ html,body {
     color: white;
     width: 20%;
     height: 40px;
-    margin-top: 15px;
-    margin-left: 45px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    margin-left: 100px;
     border: none;
 }
 .stack-container {
@@ -197,5 +198,6 @@ input {
 .stack-home-post {
     padding: 10px 0px;
     width: 100%;
+    margin-top: 20px;
     border-bottom: 1px solid rgb(122, 141, 158);
 }
