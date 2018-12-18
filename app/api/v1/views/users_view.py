@@ -82,4 +82,22 @@ def registerUser():
 @version1.route("/login", methods=['POST'])
 def loginUser():
     """ logs in a registered user """
-    pass
+    passMatch, unameMatch = False, False
+    password = request.get_json()["password"]
+    userName = request.get_json()["uname"]
+    for user in range(len(users)):
+        for key, value in users[user].items():
+            if key == "uname":
+                if value == userName:
+                    unameMatch = True
+                    if users[user]["password"] == password:
+                        passMatch = True
+                        break
+    
+    if not unameMatch:
+        return jsonify({"Err": "Please check your username"})
+    if not passMatch:
+        return jsonify({"Err": "Please check your password"})
+    
+
+    return jsonify({"Message": "Welcome {}, You have been successfully logged in.".format(userName)})
