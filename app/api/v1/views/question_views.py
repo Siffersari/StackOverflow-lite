@@ -83,3 +83,9 @@ def postQuestion():
             questions[position][userName] = {int(questionId): finalquestion}
 
     return questions[position][userName][int(questionId)]
+
+
+@version1.route("/questions/<questionId>", methods=["DELETE"])
+def deleteQuestion(questionId):
+    """ Deletes a specific question """
+    pass
