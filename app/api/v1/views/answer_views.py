@@ -47,3 +47,9 @@ def postAnswer(questionId):
     questions[position][userName][int(questionId)]["answers"][int(answerId)] = {
         answer: False}
     return jsonify({"Success": "You answer has been posted."})
+
+
+@version1.route("/questions/<questionId>/answers", methods=['GET'])
+def getAnswers(questionId):
+    """ Gets all answers to a question """
+    pass
