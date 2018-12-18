@@ -52,4 +52,33 @@ def postAnswer(questionId):
 @version1.route("/questions/<questionId>/answers", methods=['GET'])
 def getAnswers(questionId):
     """ Gets all answers to a question """
-    pass
+    userFound, imHere, answerFound = False, False, False
+    position = 0
+    userName = request.get_json()["uname"]
+   
+    for user in range(len(questions)):
+        for key, value in questions[user].items():
+            if key == userName:
+                userFound = True
+                position = user
+                for question, content in value.items():
+                    if question == int(questionId):
+                        imHere = True
+                        for name, content in content.items():
+                            if name == "answers":
+                                answerFound = True
+                                
+
+    if not userFound:
+        return jsonify({"Err": "This user is not found. Please check your username."}), 404
+
+    elif userFound:
+        if not imHere:
+            return jsonify({"Err": "This question is not found."}), 404
+        elif imHere:
+            if not answerFound:
+                return jsonify({"Err": "No answer has been found"}), 404
+
+        
+    return jsonify(questions[position][userName][int(questionId)]["answers"])
+    
