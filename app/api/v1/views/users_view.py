@@ -77,3 +77,9 @@ def registerUser():
     }
 # Then we return the '_validator' method here.
     return _validator(user)
+
+
+@version1.route("/login", methods=['POST'])
+def loginUser():
+    """ logs in a registered user """
+    pass
