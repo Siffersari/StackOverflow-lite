@@ -105,4 +105,7 @@ class TestUsers(unittest.TestCase):
         self.assertTrue(len(users.json) > 0)
         self.assertNotEqual(users.status_code, 404)
         self.assertNotEqual(users.status_code, 400)
-        
+
+
+if __name__ == '__main__':
+    unittest.main()
