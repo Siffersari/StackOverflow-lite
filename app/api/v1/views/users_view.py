@@ -57,6 +57,8 @@ def hello_world():
 @version1.route("/users", methods=["GET"])
 def get_users():
     """ Gets all registered users """
+    if not users:
+        return jsonify({"Err": "There no registered users yet"}), 404
     return jsonify(users)
 
 
