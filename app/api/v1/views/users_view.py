@@ -45,7 +45,7 @@ def _validator(user):
 
     users.append(user)
 
-    return jsonify(user)
+    return jsonify(user), 201
 
 
 @version1.route("/")
