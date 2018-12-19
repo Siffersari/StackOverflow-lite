@@ -25,15 +25,15 @@ def _validator(user):
     import re
     for key, value in user.items():
         if not value:
-            return jsonify({"err": "{} is a required field.".format(key)}), 400
+            return jsonify({"Err": "{} is a required field.".format(key)}), 400
 
         elif key == 'email':
             if not re.search(r'\w+[.|\w]\w+@\w+[.]\w+[.|\w+]\w+', value):
-                return jsonify({"err": "Please enter a valid {}.".format(key)}), 400
+                return jsonify({"Err": "Please enter a valid {}.".format(key)}), 400
 
         elif key == 'fName' or key == 'lName' or key == 'uname':
             if (len(value) < 4 or len(value) > 15):
-                return jsonify({"err": "{} should be 4-15 characters long".format(key)}), 400
+                return jsonify({"Err": "{} should be 4-15 characters long".format(key)}), 400
 
         elif key == 'password':
             upper, lower = len(re.findall(
@@ -41,7 +41,7 @@ def _validator(user):
             digit, special = len(re.findall(
                 r'[0-9]', value)), len(re.findall(r'[@#$]', value))
             if not (upper and lower and digit and special):
-                return jsonify({"err": "{} should contain atleast one number, uppercase, lowercase and special character".format(key)}), 400
+                return jsonify({"Err": "{} should contain atleast one number, uppercase, lowercase and special character".format(key)}), 400
 
     users.append(user)
 
@@ -95,9 +95,9 @@ def loginUser():
                         break
     
     if not unameMatch:
-        return jsonify({"Err": "Please check your username"})
+        return jsonify({"Err": "Please check your username"}), 400
     if not passMatch:
-        return jsonify({"Err": "Please check your password"})
+        return jsonify({"Err": "Please check your password"}), 400
     
 
-    return jsonify({"Message": "Welcome {}, You have been successfully logged in.".format(userName)})
+    return jsonify({"Success": "Welcome {}, You have been successfully logged in.".format(userName)})
