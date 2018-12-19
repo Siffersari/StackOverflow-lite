@@ -97,3 +97,12 @@ class TestUsers(unittest.TestCase):
         self.assertTrue(self.login_user(data=self.wrongPass).json["Err"])
         self.assertTrue(self.login_user(data=self.wrongUname).json["Err"])
         self.assertTrue(self.login_user().json["Success"])
+
+    def test_get_users(self):
+        """ Tests for fetching registered users """
+        users = self.client.get("api/v1/users")
+        self.assertEqual(users.status_code, 200)
+        self.assertTrue(len(users.json) > 0)
+        self.assertNotEqual(users.status_code, 404)
+        self.assertNotEqual(users.status_code, 400)
+        
