@@ -49,6 +49,7 @@ def postAnswer(questionId):
     return jsonify({"Success": "You answer has been posted."})
 
 
+
 @version1.route("/questions/<questionId>/answers", methods=['GET'])
 def getAnswers(questionId):
     """ Gets all answers to a question """
@@ -82,4 +83,3 @@ def getAnswers(questionId):
         
         
     return jsonify(questions[position][userName][int(questionId)]["answers"])
-    
