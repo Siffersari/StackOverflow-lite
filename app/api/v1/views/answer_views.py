@@ -49,14 +49,13 @@ def postAnswer(questionId):
     return jsonify({"Success": "You answer has been posted."})
 
 
-
 @version1.route("/questions/<questionId>/answers", methods=['GET'])
 def getAnswers(questionId):
     """ Gets all answers to a question """
     userFound, imHere, answerFound = False, False, False
     position = 0
     userName = request.get_json()["uname"]
-   
+
     for user in range(len(questions)):
         for key, value in questions[user].items():
             if key == userName:
@@ -68,7 +67,6 @@ def getAnswers(questionId):
                         for name, content in content.items():
                             if name == "answers":
                                 answerFound = True
-                                
 
     if not userFound:
         return jsonify({"Err": "This user is not found. Please check your username."}), 404
@@ -80,6 +78,13 @@ def getAnswers(questionId):
             if not answerFound:
                 return jsonify({"Err": "No answer has been found"}), 404
 
-        
-        
     return jsonify(questions[position][userName][int(questionId)]["answers"])
+
+@version1.route("/questions/<questionId>/answers/<answerId>", methods=['PUT'])
+def acceptAnswer(questionId, answerId):
+    """ Marks an answer as accepted or updates an answer """
+    userFound, imHere, answerFound, answerPosted = False, False, False, False
+    position = 0
+    answer = request.get_json()["answer"]
+    userName = request.get_json()["uname"]
+    
