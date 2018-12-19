@@ -80,11 +80,52 @@ def getAnswers(questionId):
 
     return jsonify(questions[position][userName][int(questionId)]["answers"])
 
+
 @version1.route("/questions/<questionId>/answers/<answerId>", methods=['PUT'])
 def acceptAnswer(questionId, answerId):
     """ Marks an answer as accepted or updates an answer """
-    userFound, imHere, answerFound, answerPosted = False, False, False, False
+    userFound, imHere, answerFound, answerPosted, answerMatches = False, False, False, False, False
     position = 0
     answer = request.get_json()["answer"]
     userName = request.get_json()["uname"]
-    
+
+    for user in range(len(questions)):
+        for key, value in questions[user].items():
+            if key == userName:
+                userFound = True
+                position = user
+                for question, content in value.items():
+                    if question == int(questionId):
+                        imHere = True
+                        for name, content in content.items():
+                            if name == "answers":
+                                answerFound = True
+                                for item, data in content.items():
+                                    if item == int(answerId):
+                                        answerPosted = True
+                                        for answerHere in data.keys():
+                                            if answerHere == answer:
+                                                answerMatches = True
+                                                break
+
+    if not userFound:
+        return jsonify({"Err": "This user is not found. Please check your username."}), 404
+
+    elif userFound:
+        if not imHere:
+            return jsonify({"Err": "This question is not found."}), 404
+        elif imHere:
+            if not answerFound:
+                questions[position][userName][int(questionId)]["answers"] = {
+                    int(answerId): {answer: False}
+                }
+                return jsonify({"Success": "Your answer has been received"})
+            elif answerFound and answerPosted:
+                if not answerMatches:
+                    questions[position][userName][int(questionId)]["answers"][int(answerId)] = {
+                        answer: False}
+                    return jsonify({"Success": "Answer updated!"})
+
+    questions[position][userName][int(
+        questionId)]["answers"][int(answerId)][answer] = True
+    return jsonify({"Success": " '{}' has been accepted!".format(answer)})
