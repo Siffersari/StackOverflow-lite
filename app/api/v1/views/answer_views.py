@@ -80,5 +80,6 @@ def getAnswers(questionId):
                 return jsonify({"Err": "No answer has been found"}), 404
 
         
+        
     return jsonify(questions[position][userName][int(questionId)]["answers"])
     
