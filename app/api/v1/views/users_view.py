@@ -60,7 +60,7 @@ def get_users():
     return jsonify(users)
 
 
-@version1.route("/signup", methods=["POST"])
+@version1.route("/auth/signup", methods=["POST"])
 def registerUser():
     """ Registers a user """
     firstName = request.get_json()["fName"]
@@ -79,7 +79,7 @@ def registerUser():
     return _validator(user)
 
 
-@version1.route("/login", methods=['POST'])
+@version1.route("/auth/login", methods=['POST'])
 def loginUser():
     """ logs in a registered user """
     passMatch, unameMatch = False, False
