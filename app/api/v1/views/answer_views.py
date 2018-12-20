@@ -40,13 +40,13 @@ def postAnswer(questionId):
                 questions[position][userName][int(questionId)]["answers"] = {
                     int(answerId): {answer: False}
                 }
-                return jsonify({"Success": "Your answer has been received"})
+                return jsonify({"Success": "Your answer has been received"}), 201
             elif answerFound and answerPosted:
                 return jsonify({"Err": "This answer exists already"}), 400
 
     questions[position][userName][int(questionId)]["answers"][int(answerId)] = {
         answer: False}
-    return jsonify({"Success": "You answer has been posted."})
+    return jsonify({"Success": "You answer has been posted."}), 201
 
 
 @version1.route("/questions/<questionId>/answers", methods=['GET'])
@@ -78,7 +78,7 @@ def getAnswers(questionId):
             if not answerFound:
                 return jsonify({"Err": "No answer has been found"}), 404
 
-    return jsonify(questions[position][userName][int(questionId)]["answers"])
+    return jsonify({"Answers": questions[position][userName][int(questionId)]["answers"]})
 
 
 @version1.route("/questions/<questionId>/answers/<answerId>", methods=['PUT'])
@@ -119,7 +119,7 @@ def acceptAnswer(questionId, answerId):
                 questions[position][userName][int(questionId)]["answers"] = {
                     int(answerId): {answer: False}
                 }
-                return jsonify({"Success": "Your answer has been received"})
+                return jsonify({"Success": "Your answer has been received"}), 201
             elif answerFound and answerPosted:
                 if not answerMatches:
                     questions[position][userName][int(questionId)]["answers"][int(answerId)] = {
