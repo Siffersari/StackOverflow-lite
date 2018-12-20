@@ -42,12 +42,13 @@ questions = [
 
 
 @version1.route("/questions", methods=["GET"])
-def fetchQuestion():
+def fetchQuestions():
     """ Fetches all questions """
     if not questions:
         return jsonify({"Err": "There are no existing questions"}), 404
 
     return jsonify({"Questions": questions})
+
 
 
 @version1.route("/questions", methods=["POST"])
