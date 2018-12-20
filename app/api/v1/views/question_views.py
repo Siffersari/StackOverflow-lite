@@ -85,6 +85,34 @@ def postQuestion():
     return questions[position][userName][int(questionId)]
 
 
+
+@version1.route("/questions/<questionId>", methods=["GET"])
+def getQuestion(questionId):
+    """ Gets a specific question """
+    userFound, imHere = False, False
+    position = 0
+    userName = request.get_json()["uname"]
+
+    for user in range(len(questions)):
+        for key, value in questions[user].items():
+            if key == userName:
+                userFound = True
+                position = user
+                for question in value.keys():
+                    if question == int(questionId):
+                        imHere = True
+                        break
+
+    if not userFound:
+        return jsonify({"Err": "User not found. Please check your username"}), 404
+
+    elif userFound:
+        if not imHere:
+            return jsonify({"Err": "Question not found. Please check the question Id"}), 404
+
+    return jsonify({"Success": questions[position][userName][int(questionId)]}), 200
+
+
 @version1.route("/questions/<questionId>", methods=["DELETE"])
 def deleteQuestion(questionId):
     """ Deletes a specific question """
