@@ -51,7 +51,7 @@ class TestUsers(unittest.TestCase):
             "password": "D@1sies"
         }
 
-    def register_user(self, path="api/v1/auth/signup", data={}):
+    def register_user(self, path="/api/v1/auth/signup", data={}):
         """ Registers a new user with given data or default if not provided """
         if not data:
             data = self.data
@@ -60,7 +60,7 @@ class TestUsers(unittest.TestCase):
             data), content_type="application/json")
         return response
 
-    def login_user(self, path="api/v1/auth/login", data={}):
+    def login_user(self, path="/api/v1/auth/login", data={}):
         """ Logs in a user """
         if not data:
             data = self.data
@@ -100,11 +100,18 @@ class TestUsers(unittest.TestCase):
 
     def test_get_users(self):
         """ Tests for fetching registered users """
-        users = self.client.get("api/v1/users")
+        users = self.client.get("/api/v1/users")
         self.assertEqual(users.status_code, 200)
         self.assertTrue(len(users.json) > 0)
         self.assertNotEqual(users.status_code, 404)
         self.assertNotEqual(users.status_code, 400)
+
+
+    def tearDown(self):
+        """
+        Destroys the variables declared when setting up including the test client
+        """
+        self.app = None
 
 
 if __name__ == '__main__':
