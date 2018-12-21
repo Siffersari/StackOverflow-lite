@@ -25,15 +25,15 @@ def _validator(user):
     import re
     for key, value in user.items():
         if not value:
-            return jsonify({"err": "{} is a required field.".format(key)}), 400
+            return jsonify({"Err": "{} is a required field.".format(key)}), 400
 
         elif key == 'email':
             if not re.search(r'\w+[.|\w]\w+@\w+[.]\w+[.|\w+]\w+', value):
-                return jsonify({"err": "Please enter a valid {}.".format(key)}), 400
+                return jsonify({"Err": "Please enter a valid {}.".format(key)}), 400
 
         elif key == 'fName' or key == 'lName' or key == 'uname':
             if (len(value) < 4 or len(value) > 15):
-                return jsonify({"err": "{} should be 4-15 characters long".format(key)}), 400
+                return jsonify({"Err": "{} should be 4-15 characters long".format(key)}), 400
 
         elif key == 'password':
             upper, lower = len(re.findall(
@@ -41,11 +41,11 @@ def _validator(user):
             digit, special = len(re.findall(
                 r'[0-9]', value)), len(re.findall(r'[@#$]', value))
             if not (upper and lower and digit and special):
-                return jsonify({"err": "{} should contain atleast one number, uppercase, lowercase and special character".format(key)}), 400
+                return jsonify({"Err": "{} should contain atleast one number, uppercase, lowercase and special character".format(key)}), 400
 
     users.append(user)
 
-    return jsonify(user)
+    return jsonify(user), 201
 
 
 @version1.route("/")
@@ -57,10 +57,12 @@ def hello_world():
 @version1.route("/users", methods=["GET"])
 def get_users():
     """ Gets all registered users """
+    if not users:
+        return jsonify({"Err": "There no registered users yet"}), 404
     return jsonify(users)
 
 
-@version1.route("/signup", methods=["POST"])
+@version1.route("/auth/signup", methods=["POST"])
 def registerUser():
     """ Registers a user """
     firstName = request.get_json()["fName"]
@@ -79,7 +81,7 @@ def registerUser():
     return _validator(user)
 
 
-@version1.route("/login", methods=['POST'])
+@version1.route("/auth/login", methods=['POST'])
 def loginUser():
     """ logs in a registered user """
     passMatch, unameMatch = False, False
@@ -95,9 +97,9 @@ def loginUser():
                         break
     
     if not unameMatch:
-        return jsonify({"Err": "Please check your username"})
+        return jsonify({"Err": "Please check your username"}), 400
     if not passMatch:
-        return jsonify({"Err": "Please check your password"})
+        return jsonify({"Err": "Please check your password"}), 400
     
 
-    return jsonify({"Message": "Welcome {}, You have been successfully logged in.".format(userName)})
+    return jsonify({"Success": "Welcome {}, You have been successfully logged in.".format(userName)})

@@ -41,6 +41,16 @@ questions = [
 ]
 
 
+@version1.route("/questions", methods=["GET"])
+def fetchQuestions():
+    """ Fetches all questions """
+    if not questions:
+        return jsonify({"Err": "There are no existing questions"}), 404
+
+    return jsonify({"Questions": questions})
+
+
+
 @version1.route("/questions", methods=["POST"])
 def postQuestion():
     """ Posts a question """
@@ -74,7 +84,7 @@ def postQuestion():
 
     if not userFound:
         questions.append(brandNew)
-        return jsonify(questions[-1][userName][int(questionId)])
+        return jsonify({"Success": questions[-1][userName][int(questionId)]}), 201
 
     elif userFound:
         if imHere:
@@ -82,7 +92,7 @@ def postQuestion():
         elif not imHere:
             questions[position][userName] = {int(questionId): finalquestion}
 
-    return questions[position][userName][int(questionId)]
+    return jsonify({"Success": questions[position][userName][int(questionId)]}), 201
 
 
 
