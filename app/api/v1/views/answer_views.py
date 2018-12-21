@@ -64,9 +64,10 @@ def getAnswers(questionId):
                 for question, content in value.items():
                     if question == int(questionId):
                         imHere = True
-                        for name, content in content.items():
+                        for name, body in content.items():
                             if name == "answers":
-                                answerFound = True
+                                if body:
+                                    answerFound = True
 
     if not userFound:
         return jsonify({"Err": "This user is not found. Please check your username."}), 404
