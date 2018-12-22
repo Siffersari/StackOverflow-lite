@@ -1,5 +1,6 @@
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 [![Build Status](https://travis-ci.com/Siffersari/StackOverflow-lite.svg?branch=develop)](https://travis-ci.com/Siffersari/StackOverflow-lite)
+[![Coverage Status](https://coveralls.io/repos/github/Siffersari/StackOverflow-lite/badge.svg?branch=develop)](https://coveralls.io/github/Siffersari/StackOverflow-lite?branch=develop)
 
 # StackOverflow-lite
 
