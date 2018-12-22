@@ -4,4 +4,4 @@ StackOverflow-lite is a plaform where people can ask quesitons and provide answe
 
 
 
-This endpoint containt the necessary endpoint for the platform.
+This endpoint containt the necessary endpoint for the Stackoverflow platform.
