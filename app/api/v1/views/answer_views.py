@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 
 from .. import version1
 
-from .question_views import questions
+from .. models.question_models import questions
 
 
 @version1.route("/questions/<questionId>/answers", methods=['POST'])
