@@ -27,6 +27,8 @@ class UserModels(object):
         self.db = users
 
     def fetch_users(self):
+        if not users:
+            return jsonify({"Err": "There no registered users yet"}), 404
         return self.db
 
     def login_user(self, username, password):
