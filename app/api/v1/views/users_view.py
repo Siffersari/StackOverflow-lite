@@ -1,8 +1,9 @@
 from flask import Flask, request, jsonify
-from .. models.user_model import users, UserModels
+from .. models.user_model import UserModels
 from .. import version1
 
 db = UserModels()
+
 
 @version1.route("/")
 def hello_world():
@@ -13,8 +14,6 @@ def hello_world():
 @version1.route("/users", methods=["GET"])
 def get_users():
     """ Gets all registered users """
-    if not users:
-        return jsonify({"Err": "There no registered users yet"}), 404
     return jsonify(db.fetch_users()), 200
 
 
@@ -42,5 +41,5 @@ def loginUser():
     """ logs in a registered user """
     password = request.get_json()["password"]
     userName = request.get_json()["uname"]
-    
+
     return db.login_user(userName, password)

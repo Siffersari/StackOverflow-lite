@@ -23,6 +23,7 @@ class UserModels(object):
     """ This class Users contains the methods used while
     interacting with users and manipulating user details.
     """
+
     def __init__(self):
         self.db = users
 
@@ -41,14 +42,13 @@ class UserModels(object):
                         if self.db[user]["password"] == password:
                             passMatch = True
                             break
-    
+
         if not unameMatch:
             return jsonify({"Err": "Please check your username"}), 400
         if not passMatch:
             return jsonify({"Err": "Please check your password"}), 400
 
         return jsonify({"Success": "Welcome {}, You have been successfully logged in.".format(username)})
-
 
     def _validator(self, user):
         """ Validates user details before adding them """
@@ -76,4 +76,3 @@ class UserModels(object):
         self.db.append(user)
 
         return jsonify(user), 201
-
