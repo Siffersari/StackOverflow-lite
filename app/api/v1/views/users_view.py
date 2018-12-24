@@ -1,52 +1,8 @@
 from flask import Flask, request, jsonify
-
+from .. models.user_model import users, UserModels
 from .. import version1
 
-
-users = [{
-    "email": "Leewelkarani@gmail.com",
-    "fName": "Leewel",
-    "lName": "Karani",
-    "password": "Pa$5word",
-    "uname": "Leewel"
-},
-    {
-    "email": "Johnjohn@gmail.com",
-    "fName": "John",
-    "lName": "john",
-    "password": "J0#ndoe",
-    "uname": "John"
-}
-]
-
-
-def _validator(user):
-    """ Validates user details before adding them """
-    import re
-    for key, value in user.items():
-        if not value:
-            return jsonify({"Err": "{} is a required field.".format(key)}), 400
-
-        elif key == 'email':
-            if not re.search(r'\w+[.|\w]\w+@\w+[.]\w+[.|\w+]\w+', value):
-                return jsonify({"Err": "Please enter a valid {}.".format(key)}), 400
-
-        elif key == 'fName' or key == 'lName' or key == 'uname':
-            if (len(value) < 4 or len(value) > 15):
-                return jsonify({"Err": "{} should be 4-15 characters long".format(key)}), 400
-
-        elif key == 'password':
-            upper, lower = len(re.findall(
-                r'[A-Z]', value)), len(re.findall(r'[a-z]', value))
-            digit, special = len(re.findall(
-                r'[0-9]', value)), len(re.findall(r'[@#$]', value))
-            if not (upper and lower and digit and special):
-                return jsonify({"Err": "{} should contain atleast one number, uppercase, lowercase and special character".format(key)}), 400
-
-    users.append(user)
-
-    return jsonify(user), 201
-
+db = UserModels()
 
 @version1.route("/")
 def hello_world():
@@ -59,7 +15,7 @@ def get_users():
     """ Gets all registered users """
     if not users:
         return jsonify({"Err": "There no registered users yet"}), 404
-    return jsonify(users)
+    return jsonify(db.fetch_users()), 200
 
 
 @version1.route("/auth/signup", methods=["POST"])
@@ -78,28 +34,13 @@ def registerUser():
         "password": password
     }
 # Then we return the '_validator' method here.
-    return _validator(user)
+    return db._validator(user)
 
 
 @version1.route("/auth/login", methods=['POST'])
 def loginUser():
     """ logs in a registered user """
-    passMatch, unameMatch = False, False
     password = request.get_json()["password"]
     userName = request.get_json()["uname"]
-    for user in range(len(users)):
-        for key, value in users[user].items():
-            if key == "uname":
-                if value == userName:
-                    unameMatch = True
-                    if users[user]["password"] == password:
-                        passMatch = True
-                        break
     
-    if not unameMatch:
-        return jsonify({"Err": "Please check your username"}), 400
-    if not passMatch:
-        return jsonify({"Err": "Please check your password"}), 400
-    
-
-    return jsonify({"Success": "Welcome {}, You have been successfully logged in.".format(userName)})
+    return db.login_user(userName, password)
