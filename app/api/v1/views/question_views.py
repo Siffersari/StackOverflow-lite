@@ -1,151 +1,38 @@
 from flask import Flask, request, jsonify
-
+from .. models.question_models import QuestionModels
 from .. import version1
 
-
-questions = [
-    {
-        "Leewel":
-        {
-            1:
-                {
-                    "title": "Git won't upload my directory",
-                    "body": "I have been trying to upload but I get a not authorized error."
-                },
-            2:
-                {
-                    "title": "Windows won't start after dualbooting Linux",
-                    "body": "Hello guys, I installed Linux on my windows device, now it won't boot up"
-                }
-
-        }
-    },
-
-    {
-        "Janet":
-        {
-            1:
-                {
-                    "title": "Git won't upload my directory",
-                    "body": "I have been trying to upload but I get a not authorized error."
-                },
-            2:
-                {
-                    "title": "Windows won't start after dualbooting Linux",
-                    "body": "Hello guys, I installed Linux on my windows device, now it won't boot up"
-                }
-
-        }
-    }
-
-]
+db = QuestionModels()
 
 
 @version1.route("/questions", methods=["GET"])
 def fetchQuestions():
     """ Fetches all questions """
-    if not questions:
-        return jsonify({"Err": "There are no existing questions"}), 404
-
-    return jsonify({"Questions": questions})
-
+    return db.get_all_questions()
 
 
 @version1.route("/questions", methods=["POST"])
 def postQuestion():
     """ Posts a question """
-    userFound, imHere = False, False
-    position = 0
     title = request.get_json()["title"]
     body = request.get_json()["body"]
     questionId = request.get_json()["questionId"]
     userName = request.get_json()["uname"]
 
-    finalquestion = {
-        "title": title,
-        "body": body
-    }
-
-    brandNew = {
-        userName: {
-            int(questionId): finalquestion
-        }
-    }
-
-    for user in range(len(questions)):
-        for key, value in questions[user].items():
-            if key == userName:
-                userFound = True
-                position = user
-                for question in value.keys():
-                    if question == int(questionId):
-                        imHere = True
-                        break
-
-    if not userFound:
-        questions.append(brandNew)
-        return jsonify({"Success": questions[-1][userName][int(questionId)]}), 201
-
-    elif userFound:
-        if imHere:
-            return jsonify({"Err": "Question already exists."}), 400
-        elif not imHere:
-            questions[position][userName] = {int(questionId): finalquestion}
-
-    return jsonify({"Success": questions[position][userName][int(questionId)]}), 201
-
+    return db.post_question(title, body, userName, questionId)
 
 
 @version1.route("/questions/<questionId>", methods=["GET"])
 def getQuestion(questionId):
     """ Gets a specific question """
-    userFound, imHere = False, False
-    position = 0
     userName = request.get_json()["uname"]
 
-    for user in range(len(questions)):
-        for key, value in questions[user].items():
-            if key == userName:
-                userFound = True
-                position = user
-                for question in value.keys():
-                    if question == int(questionId):
-                        imHere = True
-                        break
-
-    if not userFound:
-        return jsonify({"Err": "User not found. Please check your username"}), 404
-
-    elif userFound:
-        if not imHere:
-            return jsonify({"Err": "Question not found. Please check the question Id"}), 404
-
-    return jsonify({"Success": questions[position][userName][int(questionId)]}), 200
+    return db.get_specific_question(userName, questionId)
 
 
 @version1.route("/questions/<questionId>", methods=["DELETE"])
 def deleteQuestion(questionId):
     """ Deletes a specific question """
-    userFound, imHere = False, False
-    position = 0
     userName = request.get_json()["uname"]
 
-    for user in range(len(questions)):
-        for key, value in questions[user].items():
-            if key == userName:
-                userFound = True
-                position = user
-                for question in value.keys():
-                    if question == int(questionId):
-                        imHere = True
-                        break
-
-    if not userFound:
-        return jsonify({"Err": "This User is not found. Please check your username."}), 404
-
-    elif userFound:
-        if imHere:
-            del questions[position][userName][int(questionId)]
-            return jsonify({"Success": "This question has been deleted."})
-        elif not imHere:
-            return jsonify({"Err": "This question is not found. It might have been deleted already"}), 404
+    return db.deleteQuestion(userName, questionId)
