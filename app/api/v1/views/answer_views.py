@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
 from .. models.answer_models import AnswerModels
 from .. import version1
 
