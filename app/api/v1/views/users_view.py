@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request
 from .. models.user_model import UserModels
 from .. import version1
 
@@ -14,7 +14,7 @@ def hello_world():
 @version1.route("/users", methods=["GET"])
 def get_users():
     """ Gets all registered users """
-    return jsonify(db.fetch_users()), 200
+    return db.fetch_users()
 
 
 @version1.route("/auth/signup", methods=["POST"])
