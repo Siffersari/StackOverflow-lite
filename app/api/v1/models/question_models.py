@@ -48,6 +48,22 @@ class QuestionModels(object):
     def __init__(self):
         self.db = questions
 
+    def check_database(self, username, questionId):
+        userFound, imHere = False, False
+        position = 0
+        for user in range(len(self.db)):
+            for key in self.db[user].keys():
+                if key == username:
+                    userFound = True
+                    position = user
+                    break
+
+        if userFound:
+            if int(questionId) in questions[position][username]:
+                imHere = True
+
+        return userFound, position, imHere
+
     def get_all_questions(self):
         if not self.db:
             return jsonify({"Err": "There are no existing questions"}), 404
@@ -55,17 +71,8 @@ class QuestionModels(object):
         return jsonify({"Questions": self.db})
 
     def get_specific_question(self, username, questionId):
-        userFound, imHere = False, False
-        position = 0
-        for user in range(len(self.db)):
-            for key, value in self.db[user].items():
-                if key == username:
-                    userFound = True
-                    position = user
-                    for question in value.keys():
-                        if question == int(questionId):
-                            imHere = True
-                            break
+        results = self.check_database(username, questionId)
+        userFound, position,  imHere = results
 
         if not userFound:
             return jsonify({"Err": "User not found. Please check your username"}), 404
@@ -77,8 +84,8 @@ class QuestionModels(object):
         return jsonify({"Success": self.db[position][username][int(questionId)]}), 200
 
     def post_question(self, title, body, username, questionId):
-        userFound, imHere = False, False
-        position = 0
+        results = self.check_database(username, questionId)
+        userFound, position,  imHere = results
 
         finalquestion = {
             "title": title,
@@ -91,16 +98,6 @@ class QuestionModels(object):
             }
         }
 
-        for user in range(len(self.db)):
-            for key, value in self.db[user].items():
-                if key == username:
-                    userFound = True
-                    position = user
-                    for question in value.keys():
-                        if question == int(questionId):
-                            imHere = True
-                            break
-
         if not userFound:
             self.db.append(brandNew)
             return jsonify({"Success": self.db[-1][username][int(questionId)]}), 201
@@ -108,23 +105,15 @@ class QuestionModels(object):
         elif userFound:
             if imHere:
                 return jsonify({"Err": "Question already exists."}), 400
+
             elif not imHere:
                 self.db[position][username] = {int(questionId): finalquestion}
 
         return jsonify({"Success": self.db[position][username][int(questionId)]}), 201
 
     def deleteQuestion(self, username, questionId):
-        userFound, imHere = False, False
-        position = 0
-        for user in range(len(self.db)):
-            for key, value in self.db[user].items():
-                if key == username:
-                    userFound = True
-                    position = user
-                    for question in value.keys():
-                        if question == int(questionId):
-                            imHere = True
-                            break
+        results = self.check_database(username, questionId)
+        userFound, position,  imHere = results
 
         if not userFound:
             return jsonify({"Err": "This User is not found. Please check your username."}), 404
@@ -133,5 +122,6 @@ class QuestionModels(object):
             if imHere:
                 del self.db[position][username][int(questionId)]
                 return jsonify({"Success": "This question has been deleted."})
+
             elif not imHere:
                 return jsonify({"Err": "This question is not found. It might have been deleted already"}), 404
