@@ -5,41 +5,41 @@ from .question_models import questions
 class AnswerModels(object):
     """
     This class AnswerModels contains methods that allow 
-    posting, getting and updating of answers.
+    posting, getting and updating of Answers.
     """
 
     def __init__(self):
         self.db = questions
 
     def check_database(self, username, answer, questionId, answerId):
-        userFound, imHere, answerFound, answerPosted, answerMatches = False, False, False, False, False
-        position = 0
-        for user in range(len(self.db)):
-            for key in self.db[user].keys():
-                if key == username:
-                    userFound = True
-                    position = user
-                    break
+        userFound, position, imHere, answerFound, answerPosted, answerMatches = False, 0, False, False, False, False
+        result = []
+        try:
+            data = [[ind, question[username][int(questionId)]] for [ind,question] in enumerate(questions) if username in question.keys()]
 
-        if userFound:
-            if int(questionId) in questions[position][username]:
-                imHere = True
+        except:
+            return True, position, imHere, answerFound, answerPosted, answerMatches
 
-            if imHere:
-                if "answers" in questions[position][username][int(questionId)]:
-                    answerFound = True
+        if len(data) < 1:
+            return userFound, position, imHere, answerFound, answerPosted, answerMatches
+        else:
+            userFound, imHere, position = True, True, data[0][0]
+            
+            
 
-            if imHere and answerFound:
-                if int(answerId) in questions[position][username][int(questionId)]["answers"]:
-                    answerPosted = True
-                    existing_answer = list(questions[position][username][int(
-                        questionId)]["answers"][int(answerId)].keys())
-
-            if (imHere and answerFound and answerPosted):
-                if answer in existing_answer:
+        if "Answers" in data[0][1].keys():
+            answerFound = True
+            if int(answerId) in data[0][1]["Answers"].keys():
+                answerPosted = True
+                if answer in data[0][1]["Answers"][int(answerId)].keys():
                     answerMatches = True
+            
+        else:
+            return userFound, position, imHere, answerFound, answerPosted, answerMatches
 
-        return userFound, position, imHere, answerFound, answerPosted, answerMatches
+        result = [userFound, position, imHere, answerFound, answerPosted, answerMatches]
+        return result
+
 
     def get_answers(self, username, questionId):
         answer, answerId = "", 0
@@ -59,7 +59,7 @@ class AnswerModels(object):
                 if not answerFound:
                     return jsonify({"Err": "No answer has been found"}), 404
 
-        return jsonify({"Answers": self.db[position][username][int(questionId)]["answers"]})
+        return jsonify({"Answers": self.db[position][username][int(questionId)]["Answers"]})
 
     def post_answer(self, username, answer, questionId, answerId):
 
@@ -76,7 +76,7 @@ class AnswerModels(object):
 
             elif imHere:
                 if not answerFound:
-                    self.db[position][username][int(questionId)]["answers"] = {
+                    self.db[position][username][int(questionId)]["Answers"] = {
                         int(answerId): {answer: False}
                     }
                     return jsonify({"Success": "Your answer has been received"}), 201
@@ -84,7 +84,7 @@ class AnswerModels(object):
                 elif answerFound and answerPosted:
                     return jsonify({"Err": "This answer exists already"}), 400
 
-        self.db[position][username][int(questionId)]["answers"][int(answerId)] = {
+        self.db[position][username][int(questionId)]["Answers"][int(answerId)] = {
             answer: False}
         return jsonify({"Success": "You answer has been posted."}), 201
 
@@ -102,23 +102,23 @@ class AnswerModels(object):
 
         elif imHere:
             if not answerFound:
-                self.db[position][username][int(questionId)]["answers"] = {
+                self.db[position][username][int(questionId)]["Answers"] = {
                     int(answerId): {answer: False}
                 }
                 return jsonify({"Success": "Your answer has been received and posted"}), 201
 
             elif (answerFound):
                 if not answerPosted:
-                    self.db[position][username][int(questionId)]["answers"][int(answerId)] = {
+                    self.db[position][username][int(questionId)]["Answers"][int(answerId)] = {
                         answer: False}
                     return jsonify({"Success": "Your answer has been posted"}), 201
 
                 elif answerPosted:
                     if not answerMatches:
-                        self.db[position][username][int(questionId)]["answers"][int(answerId)] = {
+                        self.db[position][username][int(questionId)]["Answers"][int(answerId)] = {
                             answer: False}
                         return jsonify({"Success": "Answer updated!"})
 
         self.db[position][username][int(
-            questionId)]["answers"][int(answerId)][answer] = True
+            questionId)]["Answers"][int(answerId)][answer] = True
         return jsonify({"Success": " '{}' has been accepted!".format(answer)})

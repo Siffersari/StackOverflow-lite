@@ -51,16 +51,16 @@ class QuestionModels(object):
     def check_database(self, username, questionId):
         userFound, imHere = False, False
         position = 0
-        for user in range(len(self.db)):
-            for key in self.db[user].keys():
-                if key == username:
-                    userFound = True
-                    position = user
-                    break
+        try:
+            data = [[ind, question[username][int(questionId)]] for [ind,question] in enumerate(questions) if username in question.keys()]
 
-        if userFound:
-            if int(questionId) in questions[position][username]:
-                imHere = True
+        except:
+            return True, position, imHere
+
+        if len(data) < 1:
+            return userFound, position, imHere
+        else:
+            userFound, imHere, position = True, True, data[0][0]
 
         return userFound, position, imHere
 
