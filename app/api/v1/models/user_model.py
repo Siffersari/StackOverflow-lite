@@ -34,22 +34,12 @@ class UserModels(object):
         return jsonify(self.db), 200
 
     def login_user(self, username, password):
-        passMatch, unameMatch, position = False, False, 0
-        for user in range(len(self.db)):
-            for key, value in self.db[user].items():
-                if key == "uname":
-                    if value == username:
-                        unameMatch = True
-                        position = user
-                        break
+        user = [user for user in users if user["uname"] == username]
 
-        if self.db[position]["password"] == password:
-            passMatch = True
-
-        if not unameMatch:
+        if len(user) < 1:
             return jsonify({"Err": "Please check your username"}), 400
 
-        if not passMatch:
+        elif user[0]["password"] != password:
             return jsonify({"Err": "Please check your password"}), 400
 
         return jsonify({"Success": "Welcome {}, You have been successfully logged in.".format(username)})
@@ -68,10 +58,10 @@ class UserModels(object):
                 return jsonify({"Err": "{} should be 4-15 characters long".format(key)}), 400
 
             if key == 'password':
-                upper, lower, digit, special = len(re.findall(r'[A-Z]', value)), len(re.findall(
-                    r'[a-z]', value)), len(re.findall(r'[0-9]', value)), len(re.findall(r'[@#$]', value))
 
-                if not (upper and lower and digit and special):
+                if not (len(re.findall(r'[A-Z]', value)) > 0 and len(re.findall(
+                        r'[a-z]', value)) > 0 and len(re.findall(r'[0-9]', value)) > 0 and len(re.findall(r'[@#$]', value)) > 0):
+
                     return jsonify({"Err": "{} should contain atleast one number, uppercase, lowercase and special character".format(key)}), 400
 
         self.db.append(user)
