@@ -10,6 +10,6 @@ install:
 script:
  - pytest --cov app/tests/v1
 
-
+after_success:
  - coveralls
  
