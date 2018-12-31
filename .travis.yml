@@ -5,12 +5,11 @@ python:
 install:
  - pip install -r requirements.txt
  - pip install coveralls 
- - pip install codecov
+
 
 script:
  - pytest --cov app/tests/v1
 
-after_success:
- - codecov --token=d210c193-82cc-48f0-b735-3e881ded6e25
+
  - coveralls
  
